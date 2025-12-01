@@ -1,0 +1,224 @@
+<?php
+require_once 'Product.php';
+
+// Classe clothing dérivant de Product
+class Clothing extends Product
+{
+    private string $size;
+    private string $color;
+    private string $type;
+    private int $material_fee;
+
+    // Constructeur
+    public function __construct(
+        int $id,
+        string $name,
+        array $photos,
+        int $price,
+        string $description,
+        int $quantity,
+        int $category_id,
+        string $size,
+        string $color,
+        string $type,
+        int $material_fee
+    ) {
+        // Appel du constructeur parent
+        parent::__construct($id, $name, $photos, $price, $description, $quantity, $category_id);
+
+        $this->size = $size;
+        $this->color = $color;
+        $this->type = $type;
+        $this->material_fee = $material_fee;
+    }
+
+    // Routeurs - Getters
+    public function getSize(): string
+    {
+        return $this->size;
+    }
+
+    public function getColor(): string
+    {
+        return $this->color;
+    }
+
+    public function getType(): string
+    {
+        return $this->type;
+    }
+
+    public function getMaterialFee(): int
+    {
+        return $this->material_fee;
+    }
+
+    // Routeurs - Setters
+    public function setSize(string $size): void
+    {
+        $this->size = $size;
+    }
+
+    public function setColor(string $color): void
+    {
+        $this->color = $color;
+    }
+
+    public function setType(string $type): void
+    {
+        $this->type = $type;
+    }
+
+    public function setMaterialFee(int $material_fee): void
+    {
+        $this->material_fee = $material_fee;
+    }
+
+    // Surcharge de la méthode findOneById pour renvoyer une instance de Clothing
+    public function findOneById(int $id): Clothing|false
+    {
+        try {
+            $pdo = new PDO('mysql:host=localhost;dbname=draft-shop;charset=utf8mb4', 'root', '');
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Jointure entre product et clothing
+            $stmt = $pdo->prepare("
+                SELECT p.*, c.size, c.color, c.type, c.material_fee
+                FROM product p
+                INNER JOIN clothing c ON p.id = c.product_id
+                WHERE p.id = :id
+            ");
+
+            $stmt->execute(['id' => $id]);
+            $data = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$data) {
+                return false;
+            }
+
+            // Créer une instance de Clothing avec toutes les données
+            return new Clothing(
+                $data['id'],
+                $data['name'],
+                json_decode($data['photos'], true),
+                $data['price'],
+                $data['description'],
+                $data['quantity'],
+                $data['category_id'],
+                $data['size'],
+                $data['color'],
+                $data['type'],
+                $data['material_fee']
+            );
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    // Surcharge de la méthode findAll pour renvoyer un tableau d'instances de Clothing
+    public function findAll(): array
+    {
+        try {
+            $pdo = new PDO('mysql:host=localhost;dbname=draft-shop;charset=utf8mb4', 'root', '');
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            // Jointure entre product et clothing
+            $stmt = $pdo->query("
+                SELECT p.*, c.size, c.color, c.type, c.material_fee
+                FROM product p
+                INNER JOIN clothing c ON p.id = c.product_id
+            ");
+
+            $products = [];
+            while ($data = $stmt->fetch(PDO::FETCH_ASSOC)) {
+                $products[] = new Clothing(
+                    $data['id'],
+                    $data['name'],
+                    json_decode($data['photos'], true),
+                    $data['price'],
+                    $data['description'],
+                    $data['quantity'],
+                    $data['category_id'],
+                    $data['size'],
+                    $data['color'],
+                    $data['type'],
+                    $data['material_fee']
+                );
+            }
+
+            return $products;
+        } catch (PDOException $e) {
+            return [];
+        }
+    }
+
+    // Surcharge de la méthode create pour inclure les données spécifiques aux vêtements
+    public function create(): Product|false
+    {
+        // Créer d'abord le produit parent
+        $result = parent::create();
+
+        if ($result === false) {
+            return false;
+        }
+
+        try {
+            $pdo = new PDO('mysql:host=localhost;dbname=draft-shop;charset=utf8mb4', 'root', '');
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $stmt = $pdo->prepare("
+                INSERT INTO clothing (product_id, size, color, type, material_fee)
+                VALUES (:product_id, :size, :color, :type, :material_fee)
+            ");
+
+            $stmt->execute([
+                'product_id' => $this->getId(),
+                'size' => $this->size,
+                'color' => $this->color,
+                'type' => $this->type,
+                'material_fee' => $this->material_fee
+            ]);
+
+            return $this;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+
+    // Surcharge de la méthode update pour inclure les données spécifiques aux vêtements
+    public function update(): Product|false
+    {
+        // Mettre à jour d'abord le produit parent
+        $result = parent::update();
+
+        if ($result === false) {
+            return false;
+        }
+
+        try {
+            $pdo = new PDO('mysql:host=localhost;dbname=draft-shop;charset=utf8mb4', 'root', '');
+            $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+            $stmt = $pdo->prepare("
+                UPDATE clothing 
+                SET size = :size, 
+                    color = :color, 
+                    type = :type, 
+                    material_fee = :material_fee
+                WHERE product_id = :product_id
+            ");
+
+            $stmt->execute([
+                'product_id' => $this->getId(),
+                'size' => $this->size,
+                'color' => $this->color,
+                'type' => $this->type,
+                'material_fee' => $this->material_fee
+            ]);
+
+            return $this;
+        } catch (PDOException $e) {
+            return false;
+        }
+    }
+}
