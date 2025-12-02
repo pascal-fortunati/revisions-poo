@@ -1,6 +1,24 @@
 <?php
 require_once 'Category.php';
 require_once 'Product.php';
+
+// Création d'une catégorie
+$category = new Category(
+    1,
+    "Informatique",
+    "Tous les produits informatiques : ordinateurs, accessoires, etc."
+);
+
+// Création d'un produit
+$product = new Product(
+    1,
+    "Ordinateur portable",
+    ["photo1.jpg", "photo2.jpg", "photo3.jpg"],
+    99900, // Prix en centimes (999,00 €)
+    "Un excellent ordinateur portable pour le travail et les loisirs",
+    15,
+    $category->getId() // Utilisation de l'ID de la catégorie
+);
 ?>
 <!DOCTYPE html>
 <html lang="fr">

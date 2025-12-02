@@ -72,26 +72,30 @@ class Category implements EntityInterface
         return $this;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name): self
     {
         $this->name = $name;
         $this->updateTimestamp();
+        return $this;
     }
 
-    public function setDescription(string $description): void
+    public function setDescription(string $description): self
     {
         $this->description = $description;
         $this->updateTimestamp();
+        return $this;
     }
 
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
-    public function setUpdatedAt(DateTime $updatedAt): void
+    public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
 
     /**
@@ -100,9 +104,10 @@ class Category implements EntityInterface
      * @param EntityCollection $products La collection de produits
      * @return void
      */
-    public function setProducts(EntityCollection $products): void
+    public function setProducts(EntityCollection $products): self
     {
         $this->products = $products;
+        return $this;
     }
 
     /**

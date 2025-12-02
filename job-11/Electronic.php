@@ -38,14 +38,16 @@ class Electronic extends Product
     }
 
     // Setters
-    public function setBrand(string $brand): void
+    public function setBrand(string $brand): self
     {
         $this->brand = $brand;
+        return $this;
     }
 
-    public function setWarrantyFee(int $warranty_fee): void
+    public function setWarrantyFee(int $warranty_fee): self
     {
         $this->warranty_fee = $warranty_fee;
+        return $this;
     }
 
     // Surcharge de la méthode create pour inclure les données spécifiques aux électroniques

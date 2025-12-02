@@ -44,14 +44,16 @@ class Electronic extends AbstractProduct implements StockableInterface
     }
 
     // Routeurs - Setters
-    public function setBrand(string $brand): void
+    public function setBrand(string $brand): self
     {
         $this->brand = $brand;
+        return $this;
     }
 
-    public function setWarrantyFee(int $warranty_fee): void
+    public function setWarrantyFee(int $warranty_fee): self
     {
         $this->warranty_fee = $warranty_fee;
+        return $this;
     }
 
     // Implémentation de la méthode abstraite findOneById

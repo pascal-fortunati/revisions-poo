@@ -1,5 +1,15 @@
 <?php
 require_once 'Product.php';
+
+// Création d'un produit
+$product = new Product(
+    1,
+    "Ordinateur portable",
+    ["photo1.jpg", "photo2.jpg", "photo3.jpg"],
+    99900, // Prix en centimes (999,00 €)
+    "Un excellent ordinateur portable pour le travail et les loisirs",
+    15
+);
 ?>
 <!DOCTYPE html>
 <html lang="fr">

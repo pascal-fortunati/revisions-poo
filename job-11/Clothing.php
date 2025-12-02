@@ -54,24 +54,28 @@ class Clothing extends Product
     }
 
     // Setters
-    public function setSize(string $size): void
+    public function setSize(string $size): self
     {
         $this->size = $size;
+        return $this;
     }
 
-    public function setColor(string $color): void
+    public function setColor(string $color): self
     {
         $this->color = $color;
+        return $this;
     }
 
-    public function setType(string $type): void
+    public function setType(string $type): self
     {
         $this->type = $type;
+        return $this;
     }
 
-    public function setMaterialFee(int $material_fee): void
+    public function setMaterialFee(int $material_fee): self
     {
         $this->material_fee = $material_fee;
+        return $this;
     }
 
     // Surcharge de la méthode create pour inclure les données spécifiques aux vêtements

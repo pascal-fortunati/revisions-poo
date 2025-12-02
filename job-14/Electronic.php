@@ -44,9 +44,10 @@ class Electronic extends AbstractProduct implements StockableInterface
         $this->brand = $brand;
     }
 
-    public function setWarrantyFee(int $warranty_fee): void
+    public function setWarrantyFee(int $warranty_fee): self
     {
         $this->warranty_fee = $warranty_fee;
+        return $this;
     }
 
     // Surcharge de la méthode findOneById pour renvoyer une instance de électronique

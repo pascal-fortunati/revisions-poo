@@ -72,49 +72,57 @@ class Product
     }
 
     // Routeurs - Setters
-    public function setId(int $id): void
+    public function setId(int $id): self
     {
         $this->id = $id;
+        return $this;
     }
 
-    public function setName(string $name): void
+    public function setName(string $name): self
     {
         $this->name = $name;
         $this->updateTimestamp();
+        return $this;
     }
 
-    public function setPhotos(array $photos): void
+    public function setPhotos(array $photos): self
     {
         $this->photos = $photos;
         $this->updateTimestamp();
+        return $this;
     }
 
-    public function setPrice(int $price): void
+    public function setPrice(int $price): self
     {
         $this->price = $price;
         $this->updateTimestamp();
+        return $this;
     }
 
-    public function setDescription(string $description): void
+    public function setDescription(string $description): self
     {
         $this->description = $description;
         $this->updateTimestamp();
+        return $this;
     }
 
-    public function setQuantity(int $quantity): void
+    public function setQuantity(int $quantity): self
     {
         $this->quantity = $quantity;
         $this->updateTimestamp();
+        return $this;
     }
 
-    public function setCreatedAt(DateTime $createdAt): void
+    public function setCreatedAt(DateTime $createdAt): self
     {
         $this->createdAt = $createdAt;
+        return $this;
     }
 
-    public function setUpdatedAt(DateTime $updatedAt): void
+    public function setUpdatedAt(DateTime $updatedAt): self
     {
         $this->updatedAt = $updatedAt;
+        return $this;
     }
 
     // Méthode privée pour mettre à jour le timestamp
@@ -123,13 +131,3 @@ class Product
         $this->updatedAt = new DateTime();
     }
 }
-
-// Création d'un produit
-$product = new Product(
-    1,
-    "Ordinateur portable",
-    ["photo1.jpg", "photo2.jpg", "photo3.jpg"],
-    99900, // Prix en centimes (999,00 €)
-    "Un excellent ordinateur portable pour le travail et les loisirs",
-    15
-);
