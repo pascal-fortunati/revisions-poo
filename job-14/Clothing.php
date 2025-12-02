@@ -55,9 +55,10 @@ class Clothing extends AbstractProduct implements StockableInterface
     }
 
     // Routeurs - Setters
-    public function setSize(string $size): void
+    public function setSize(string $size): self
     {
         $this->size = $size;
+        return $this;
     }
 
     public function setColor(string $color): self
